@@ -1,5 +1,5 @@
-import EventDispatcher from "./data/Model.js";
-import timeUtil from "./utils/timeUtil.js";
+import EventDispatcher from "./data/Model";
+import timeUtil from "./utils/timeUtil";
 export class LogData {
     time = 0;
     type = "";

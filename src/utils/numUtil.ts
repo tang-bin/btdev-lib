@@ -1,4 +1,4 @@
-import timeUtil from "./timeUtil.js";
+import timeUtil from "./timeUtil";
 
 class NumUtil {
     public format(value: number | string, formatType: string, decimal: number = 2): string {

@@ -1,4 +1,4 @@
-import timeUtil from "./timeUtil.js";
+import timeUtil from "./timeUtil";
 class NumUtil {
     format(value, formatType, decimal = 2) {
         const valueStr = String(value).trim().toLowerCase();

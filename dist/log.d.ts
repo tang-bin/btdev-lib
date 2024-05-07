@@ -1,4 +1,4 @@
-import EventDispatcher from "./data/Model.js";
+import EventDispatcher from "./data/Model";
 export declare class LogData {
     time: number;
     type: string;

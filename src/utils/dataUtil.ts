@@ -1,4 +1,4 @@
-import numUtil from "./numUtil.js";
+import numUtil from "./numUtil";
 
 class DataUtil {
     public isEmpty(val: any): boolean {

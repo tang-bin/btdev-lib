@@ -1,9 +1,10 @@
-import dataUtil from "./utils/dataUtil.js";
-import strUtil from "./utils/strUtil.js";
-import numUtil from "./utils/numUtil.js";
-import timeUtil from "./utils/timeUtil.js";
-import colorUtil from "./utils/colorUtil.js";
-import log from "./log.js";
-import Model from "./data/Model.js";
+export { default as dataUtil } from "./utils/dataUtil";
+export { default as strUtil } from "./utils/strUtil";
+export { default as numUtil } from "./utils/numUtil";
+export { default as timeUtil } from "./utils/timeUtil";
+export { default as colorUtil } from "./utils/colorUtil";
+export { default as log } from "./log";
+export { default as xhr } from "./net/xhr";
 
-export { dataUtil, strUtil, numUtil, timeUtil, colorUtil, log, Model };
+export { default as Model } from "./data/Model";
+export { default as API } from "./net/API";

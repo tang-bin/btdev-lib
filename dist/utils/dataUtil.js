@@ -1,4 +1,4 @@
-import numUtil from "./numUtil.js";
+import numUtil from "./numUtil";
 class DataUtil {
     isEmpty(val) {
         return val === null || val === undefined || String(val).trim() === "";
