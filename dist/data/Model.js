@@ -1,4 +1,6 @@
-export default class Model {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Model {
     _$handlers = {};
     get $handlers() {
         return this._$handlers;
@@ -47,3 +49,4 @@ export default class Model {
             target.offAll();
     }
 }
+exports.default = Model;

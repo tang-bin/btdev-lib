@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class TimeUtil {
     formatDuring(time, useLabel, takeHighest) {
         if (time === null || time === undefined)
@@ -143,4 +145,4 @@ class TimeUtil {
     }
 }
 const timeUtil = new TimeUtil();
-export default timeUtil;
+exports.default = timeUtil;

@@ -1,10 +1,15 @@
-import Model from "../data/Model";
-import dataUtil from "../utils/dataUtil";
-import xhr from "./xhr";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const Model_1 = __importDefault(require("../data/Model"));
+const dataUtil_1 = __importDefault(require("../utils/dataUtil"));
+const xhr_1 = __importDefault(require("./xhr"));
 /**
  * This class is the super class of all API classes.
  */
-export default class API extends Model {
+class API extends Model_1.default {
     path = "";
     method = "";
     pathSec = {};
@@ -44,23 +49,23 @@ export default class API extends Model {
     call() {
         const p = this._buildPath();
         if (this.removeEmpty) {
-            dataUtil.removeEmpty(this.params);
-            dataUtil.removeEmpty(this.payload);
+            dataUtil_1.default.removeEmpty(this.params);
+            dataUtil_1.default.removeEmpty(this.payload);
         }
         if (!p) {
             return Promise.reject("No API PATH");
         }
         else if (this.method === "GET") {
-            return xhr.get(p, this.params).then((rs) => this.resultHook(rs));
+            return xhr_1.default.get(p, this.params).then((rs) => this.resultHook(rs));
         }
         else if (this.method === "POST") {
-            return xhr.post(p, this.params, this.payload).then((rs) => this.resultHook(rs));
+            return xhr_1.default.post(p, this.params, this.payload).then((rs) => this.resultHook(rs));
         }
         else if (this.method === "DELETE" || this.method === "DEL") {
-            return xhr.delete(p, this.params).then((rs) => this.resultHook(rs));
+            return xhr_1.default.delete(p, this.params).then((rs) => this.resultHook(rs));
         }
         else if (this.method === "PUT") {
-            return xhr.put(p, this.params, this.payload).then((rs) => this.resultHook(rs));
+            return xhr_1.default.put(p, this.params, this.payload).then((rs) => this.resultHook(rs));
         }
         else {
             return Promise.reject("Invalid API Method");
@@ -84,3 +89,4 @@ export default class API extends Model {
         return p;
     }
 }
+exports.default = API;

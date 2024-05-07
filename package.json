@@ -1,6 +1,6 @@
 {
     "name": "@btang/ts-toolbox",
-    "version": "2024.5.2",
+    "version": "2024.5.3",
     "description": "",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",

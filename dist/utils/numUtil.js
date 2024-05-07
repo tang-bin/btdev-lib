@@ -1,4 +1,9 @@
-import timeUtil from "./timeUtil";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const timeUtil_1 = __importDefault(require("./timeUtil"));
 class NumUtil {
     format(value, formatType, decimal = 2) {
         const valueStr = String(value).trim().toLowerCase();
@@ -30,11 +35,11 @@ class NumUtil {
             case "KBytesPerSec":
                 return this.formatBps(valueNumber, "B", "K", decimal);
             case "DurationMSec":
-                return timeUtil.formatDuring(valueNumber);
+                return timeUtil_1.default.formatDuring(valueNumber);
             case "DurationSec":
-                return timeUtil.formatDuring(valueNumber * 1000);
+                return timeUtil_1.default.formatDuring(valueNumber * 1000);
             case "DurationDay":
-                return timeUtil.formatDuring(valueNumber * 8640000);
+                return timeUtil_1.default.formatDuring(valueNumber * 8640000);
             case "Int":
             case "Integer":
             default:
@@ -121,4 +126,4 @@ class NumUtil {
     }
 }
 const numUtil = new NumUtil();
-export default numUtil;
+exports.default = numUtil;

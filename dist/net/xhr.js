@@ -1,5 +1,10 @@
-import Model from "../data/Model";
-class XHR extends Model {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const Model_1 = __importDefault(require("../data/Model"));
+class XHR extends Model_1.default {
     token = "";
     API_HOST = "";
     API_BASE = "/phoenix/rest/h5";
@@ -98,4 +103,4 @@ class XHR extends Model {
     }
 }
 const xhr = new XHR();
-export default xhr;
+exports.default = xhr;
