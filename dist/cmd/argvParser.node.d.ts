@@ -22,7 +22,6 @@ declare class ArgvParser {
     ls(): void;
     private _parseArgs;
     private _normalize;
-    private _getFullArgvName;
 }
 declare const argvParser: ArgvParser;
 export default argvParser;

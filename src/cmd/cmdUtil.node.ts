@@ -16,12 +16,12 @@ export class CmdSet {
     };
 }
 
-class Cmd {
+class CmdUtil {
     public verbal: boolean = false;
     public printStderr: boolean = false;
 
     public exec(
-        fullCmd: string | string[],
+        cmdList: string | string[],
         cwd?: string,
         title?: string,
         callbacks?: { [name: string]: Function | undefined }
@@ -60,12 +60,13 @@ class Cmd {
             if (!this.verbal) out.startSpinner(true);
         }
 
+        if (typeof cmdList === "string") cmdList = [cmdList];
+
         if (this.verbal) {
-            out.line("[yellow][SPAWN]:[/yellow] " + fullCmd);
+            out.line("[yellow][SPAWN]:[/yellow] " + cmdList);
         }
 
-        if (typeof fullCmd === "string") fullCmd = [fullCmd];
-        return this.serialSpawn(fullCmd, cwd, callbacks);
+        return this.runCmdList(cmdList, cwd, callbacks);
     }
 
     public parseCmd(fullCmd: string): [string, string[]] {
@@ -86,33 +87,67 @@ class Cmd {
         return result;
     }
 
-    public serialSpawn(
-        cmds: string[],
-        cwd?: string,
-        callbacks?: { [name: string]: Function | undefined }
-    ): Promise<any> {
-        let result = Promise.resolve();
-        cmds.forEach((cmd: string) => {
-            result = result.then(() => this.runCmd(cmd, cwd, callbacks));
+    /**
+     *
+     * Run a list of commands in sequence.
+     *
+     * @param cmdList
+     * @param cwd
+     * @param options
+     *
+     * @returns Promise<number> the exit code of the last command
+     */
+    public runCmdList(cmdList: string[], cwd?: string, options?: { [name: string]: any }): Promise<number> {
+        let result: Promise<number> = Promise.resolve(0);
+        cmdList.forEach((cmd: string) => {
+            result = result.then(() => this.runCmd(cmd, cwd, options));
         });
         return result;
     }
 
-    public runCmd(fullCmd: string, cwd?: string, callbacks?: { [name: string]: Function | undefined }): Promise<any> {
+    /**
+     *
+     * Run a single command.
+     *
+     * @param fullCmd<string> a full command string, e.g. "ls -al"
+     * @param cwd<optional string> current working directory
+     * @param options<optional object> options
+     *
+     * @param options.verbal<optional boolean> if true, output the command execution details
+     * @param options.fake<optional boolean> if true, fake the command execution
+     *
+     * @param options.callbacks<optional object> callbacks
+     * @param options.callbacks.onStdout<optional function> callback function for stdout
+     * @param options.callbacks.onStderr<optional function> callback function for stderr
+     * @param options.callbacks.onError<optional function> callback function for error
+     * @param options.callbacks.onClose<optional function> callback function for close
+     *
+     * @returns Promise<number> the exit code of the command
+     */
+    public runCmd(fullCmd: string, cwd?: string, options?: { [name: string]: any }): Promise<number> {
         const [cmd, argv] = this.parseCmd(fullCmd);
         return new Promise((resolve, reject) => {
+            if (options?.fake) {
+                setTimeout(() => {
+                    options?.callbacks?.onClose?.call(null, 0);
+                    resolve(0);
+                }, Math.random() * 5000 + 2000);
+
+                return;
+            }
+
             const proc = spawn(cmd, argv, cwd ? { cwd } : undefined);
             proc.stdout.on("data", (data) => {
-                if (this.verbal) out.line(data, false, false);
-                callbacks?.onStdout?.call(null, data.toString());
+                if (options?.verbal) out.line(data, false, false);
+                options?.callbacks?.onStdout?.call(null, data.toString());
             });
             proc.stderr.on("data", (data) => {
                 if (this.printStderr) out.line("[red]stderr:[/red] " + data, false, false);
-                callbacks?.onStderr?.call(null, data.toString());
+                options?.callbacks?.onStderr?.call(null, data.toString());
             });
-            proc.on("error", (err) => callbacks?.onError?.call(null, err));
+            proc.on("error", (err) => options?.callbacks?.onError?.call(null, err));
             proc.on("close", (code) => {
-                callbacks?.onClose?.call(null, code);
+                options?.callbacks?.onClose?.call(null, code);
                 if (code === 0) resolve(code);
                 else reject(code);
             });
@@ -120,5 +155,5 @@ class Cmd {
     }
 }
 
-const cmd = new Cmd();
-export default cmd;
+const cmdUtil = new CmdUtil();
+export default cmdUtil;

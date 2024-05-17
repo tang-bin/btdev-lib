@@ -8,6 +8,7 @@ const path_1 = __importDefault(require("path"));
 const pathUtil_node_1 = __importDefault(require("../utils/pathUtil.node"));
 const dataUtil_1 = __importDefault(require("../utils/dataUtil"));
 const log_1 = __importDefault(require("../log"));
+const argvParser_node_1 = __importDefault(require("./argvParser.node"));
 class ConfParser {
     _config = {};
     defaultConfig = {};
@@ -53,6 +54,29 @@ class ConfParser {
         });
         log_1.default.msg("Config updated: " + this.toString());
         return this;
+    }
+    assemble(str) {
+        str = String(str || "");
+        // find ${n} and replace with the value from vars.
+        (str.match(/\$\{(.*?)\}/gi) || []).forEach((m) => {
+            const v = this.getVar(m.slice(2, -1));
+            if (v)
+                str = str.replaceAll(m, v);
+        });
+        // find @{n} and replace with the value from argv
+        (str.match(/\@\{(.*?)\}/gi) || []).forEach((m) => {
+            let v = argvParser_node_1.default.get(m.slice(2, -1)); // get value from argv
+            if (v === undefined)
+                v = this.getVar(m.slice(2, -1)); // use value from config if not found in argv
+            if (v)
+                str = str.replaceAll(m, v);
+        });
+        return str;
+    }
+    getVar(name) {
+        const vars = this._config?.var;
+        const v = vars && vars[name] !== undefined ? String(vars[name]).trim() : "";
+        return this.assemble(v);
     }
     updateConf(name, target) {
         name = String(name).trim();

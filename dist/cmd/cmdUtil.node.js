@@ -21,7 +21,7 @@ class CmdSet {
     };
 }
 exports.CmdSet = CmdSet;
-class Cmd {
+class CmdUtil {
     verbal = false;
     printStderr = false;
     exec(cmdList, cwd, title, callbacks) {
@@ -75,13 +75,42 @@ class Cmd {
         });
         return result;
     }
+    /**
+     *
+     * Run a list of commands in sequence.
+     *
+     * @param cmdList
+     * @param cwd
+     * @param options
+     *
+     * @returns Promise<number> the exit code of the last command
+     */
     runCmdList(cmdList, cwd, options) {
-        let result = Promise.resolve();
+        let result = Promise.resolve(0);
         cmdList.forEach((cmd) => {
             result = result.then(() => this.runCmd(cmd, cwd, options));
         });
         return result;
     }
+    /**
+     *
+     * Run a single command.
+     *
+     * @param fullCmd<string> a full command string, e.g. "ls -al"
+     * @param cwd<optional string> current working directory
+     * @param options<optional object> options
+     *
+     * @param options.verbal<optional boolean> if true, output the command execution details
+     * @param options.fake<optional boolean> if true, fake the command execution
+     *
+     * @param options.callbacks<optional object> callbacks
+     * @param options.callbacks.onStdout<optional function> callback function for stdout
+     * @param options.callbacks.onStderr<optional function> callback function for stderr
+     * @param options.callbacks.onError<optional function> callback function for error
+     * @param options.callbacks.onClose<optional function> callback function for close
+     *
+     * @returns Promise<number> the exit code of the command
+     */
     runCmd(fullCmd, cwd, options) {
         const [cmd, argv] = this.parseCmd(fullCmd);
         return new Promise((resolve, reject) => {
@@ -89,12 +118,12 @@ class Cmd {
                 setTimeout(() => {
                     options?.callbacks?.onClose?.call(null, 0);
                     resolve(0);
-                    return;
                 }, Math.random() * 5000 + 2000);
+                return;
             }
             const proc = (0, child_process_1.spawn)(cmd, argv, cwd ? { cwd } : undefined);
             proc.stdout.on("data", (data) => {
-                if (this.verbal)
+                if (options?.verbal)
                     out_node_1.default.line(data, false, false);
                 options?.callbacks?.onStdout?.call(null, data.toString());
             });
@@ -114,5 +143,5 @@ class Cmd {
         });
     }
 }
-const cmd = new Cmd();
-exports.default = cmd;
+const cmdUtil = new CmdUtil();
+exports.default = cmdUtil;

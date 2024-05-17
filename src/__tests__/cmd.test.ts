@@ -1,4 +1,4 @@
-import cmd from "../cmd/cmd.node";
+import cmd from "../cmd/cmdUtil.node";
 
 describe("cmd", () => {
     beforeEach(() => {

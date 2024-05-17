@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.argvParser = exports.confParser = exports.pathUtil = exports.out = exports.cmd = exports.API = exports.Model = exports.xhr = exports.log = exports.colorUtil = exports.timeUtil = exports.numUtil = exports.strUtil = exports.dataUtil = void 0;
+exports.CmdRunner = exports.argvParser = exports.confParser = exports.pathUtil = exports.out = exports.cmdUtil = exports.API = exports.Model = exports.xhr = exports.log = exports.colorUtil = exports.timeUtil = exports.numUtil = exports.strUtil = exports.dataUtil = void 0;
 // # Web compatible
 var dataUtil_1 = require("./utils/dataUtil");
 Object.defineProperty(exports, "dataUtil", { enumerable: true, get: function () { return __importDefault(dataUtil_1).default; } });
@@ -24,8 +24,8 @@ Object.defineProperty(exports, "Model", { enumerable: true, get: function () { r
 var API_1 = require("./net/API");
 Object.defineProperty(exports, "API", { enumerable: true, get: function () { return __importDefault(API_1).default; } });
 // # Node.js only
-var cmd_node_1 = require("./cmd/cmd.node");
-Object.defineProperty(exports, "cmd", { enumerable: true, get: function () { return __importDefault(cmd_node_1).default; } });
+var cmdUtil_node_1 = require("./cmd/cmdUtil.node");
+Object.defineProperty(exports, "cmdUtil", { enumerable: true, get: function () { return __importDefault(cmdUtil_node_1).default; } });
 var out_node_1 = require("./cmd/out.node");
 Object.defineProperty(exports, "out", { enumerable: true, get: function () { return __importDefault(out_node_1).default; } });
 var pathUtil_node_1 = require("./utils/pathUtil.node");
@@ -34,3 +34,5 @@ var confParser_node_1 = require("./cmd/confParser.node");
 Object.defineProperty(exports, "confParser", { enumerable: true, get: function () { return __importDefault(confParser_node_1).default; } });
 var argvParser_node_1 = require("./cmd/argvParser.node");
 Object.defineProperty(exports, "argvParser", { enumerable: true, get: function () { return __importDefault(argvParser_node_1).default; } });
+var CmdRunner_1 = require("./cmd/CmdRunner");
+Object.defineProperty(exports, "CmdRunner", { enumerable: true, get: function () { return __importDefault(CmdRunner_1).default; } });

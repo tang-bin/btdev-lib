@@ -9,14 +9,14 @@ describe("ArgvParser", () => {
 
     test("Build and patch to one IP", () => {
         argvParser.parse(addArgv(["-bp", "1.1.1.1"]));
-        expect(argvParser.has("build")).toBe(true);
-        expect(argvParser.has("patch")).toBe(true);
+        expect(argvParser.has("b")).toBe(true);
+        expect(argvParser.has("p")).toBe(true);
     });
 
     test("Patch to two IPs", () => {
         argvParser.parse(addArgv(["-p", "1.1.1.1", "2.2.2.2"]));
-        expect(argvParser.has("patch")).toBe(true);
-        expect(argvParser.getMultiple("patch")).toEqual(["1.1.1.1", "2.2.2.2"]);
+        expect(argvParser.has("p")).toBe(true);
+        expect(argvParser.getMultiple("p")).toEqual(["1.1.1.1", "2.2.2.2"]);
     });
 
     test("Specify password", () => {

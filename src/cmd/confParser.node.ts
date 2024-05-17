@@ -3,6 +3,7 @@ import path from "path";
 import pathUtil from "../utils/pathUtil.node";
 import dataUtil from "../utils/dataUtil";
 import log from "../log";
+import argvParser from "./argvParser.node";
 
 class ConfParser {
     private _config: { [name: string]: any } = {};
@@ -50,7 +51,33 @@ class ConfParser {
         });
 
         log.msg("Config updated: " + this.toString());
+
         return this;
+    }
+
+    public assemble(str: string): string {
+        str = String(str || "");
+
+        // find ${n} and replace with the value from vars.
+        (str.match(/\$\{(.*?)\}/gi) || []).forEach((m: string) => {
+            const v = this.getVar(m.slice(2, -1));
+            if (v) str = str.replaceAll(m, v);
+        });
+
+        // find @{n} and replace with the value from argv
+        (str.match(/\@\{(.*?)\}/gi) || []).forEach((m: string) => {
+            let v = argvParser.get(m.slice(2, -1)); // get value from argv
+            if (v === undefined) v = this.getVar(m.slice(2, -1)); // use value from config if not found in argv
+            if (v) str = str.replaceAll(m, v);
+        });
+
+        return str;
+    }
+
+    public getVar(name: string): string {
+        const vars = this._config?.var;
+        const v = vars && vars[name] !== undefined ? String(vars[name]).trim() : "";
+        return this.assemble(v);
     }
 
     public updateConf(name: string, target: Function | any): ConfParser {

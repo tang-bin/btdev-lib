@@ -99,42 +99,16 @@ class ArgvParser {
 
     private _normalize(args: string[]): string[] {
         const rs: string[] = [];
+
         (args || []).forEach((arg) => {
             if (/-[a-zA-Z]+/.test(arg) && arg[1] !== "-") {
                 for (let i = 1; i < arg.length; i++) {
-                    const fullName = this._getFullArgvName(arg.charAt(i));
-                    if (fullName) rs.push("--" + fullName);
+                    const char = arg.charAt(i);
+                    if (char) rs.push("--" + char);
                 }
             } else rs.push(arg);
         });
         return rs;
-    }
-
-    private _getFullArgvName(shortArg: string): string {
-        switch (shortArg) {
-            case "b":
-                return "build";
-            case "v":
-                return "verbal";
-            case "o":
-                return "output";
-            case "p":
-                return "patch";
-            case "w":
-                return "workspace";
-            case "i":
-                return "init";
-            case "c":
-                return "checkout";
-            case "e":
-                return "edit";
-            case "d":
-                return "debug";
-            case "h":
-                return "help";
-            default:
-                return "";
-        }
     }
 }
 

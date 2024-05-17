@@ -11,13 +11,13 @@ describe("ArgvParser", () => {
     beforeEach(() => { });
     test("Build and patch to one IP", () => {
         argvParser_node_1.default.parse(addArgv(["-bp", "1.1.1.1"]));
-        expect(argvParser_node_1.default.has("build")).toBe(true);
-        expect(argvParser_node_1.default.has("patch")).toBe(true);
+        expect(argvParser_node_1.default.has("b")).toBe(true);
+        expect(argvParser_node_1.default.has("p")).toBe(true);
     });
     test("Patch to two IPs", () => {
         argvParser_node_1.default.parse(addArgv(["-p", "1.1.1.1", "2.2.2.2"]));
-        expect(argvParser_node_1.default.has("patch")).toBe(true);
-        expect(argvParser_node_1.default.getMultiple("patch")).toEqual(["1.1.1.1", "2.2.2.2"]);
+        expect(argvParser_node_1.default.has("p")).toBe(true);
+        expect(argvParser_node_1.default.getMultiple("p")).toEqual(["1.1.1.1", "2.2.2.2"]);
     });
     test("Specify password", () => {
         argvParser_node_1.default.parse(addArgv(["--passwd", "abc-123*11"]));

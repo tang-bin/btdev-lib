@@ -13,6 +13,8 @@ declare class ConfParser {
      * @returns
      */
     load(filePath: string | string[], cwd?: string, override?: boolean): ConfParser;
+    assemble(str: string): string;
+    getVar(name: string): string;
     updateConf(name: string, target: Function | any): ConfParser;
     toString(): string;
 }
