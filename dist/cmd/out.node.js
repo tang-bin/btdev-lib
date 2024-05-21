@@ -1,9 +1,4 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const readline_1 = __importDefault(require("readline"));
+import readline from "readline";
 /**
  * Node.js only.
  */
@@ -11,7 +6,7 @@ class Out {
     _spinnerTimer;
     _colors = ["gray", "red", "green", "yellow", "blue", "magenta", "cyan", "white"];
     _createReadline() {
-        return readline_1.default.createInterface({
+        return readline.createInterface({
             input: process.stdin,
             output: process.stdout,
         });
@@ -149,4 +144,4 @@ class Out {
     }
 }
 const out = new Out();
-exports.default = out;
+export default out;

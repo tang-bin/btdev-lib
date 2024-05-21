@@ -1,16 +1,10 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CmdSet = void 0;
-const child_process_1 = require("child_process");
-const out_node_1 = __importDefault(require("./out.node"));
-const timeUtil_1 = __importDefault(require("../utils/timeUtil"));
+import { spawn } from "child_process";
+import out from "./out.node";
+import timeUtil from "../utils/timeUtil";
 /**
  * Node.js only.
  */
-class CmdSet {
+export class CmdSet {
     fullCmd = "";
     cwd = "";
     title = "";
@@ -20,7 +14,6 @@ class CmdSet {
         onError: undefined,
     };
 }
-exports.CmdSet = CmdSet;
 class CmdUtil {
     verbal = false;
     printStderr = false;
@@ -30,34 +23,34 @@ class CmdUtil {
         const originalOnClose = callbacks.onClose || undefined;
         callbacks.onClose = (code) => {
             if (this.verbal)
-                out_node_1.default.line("[SPAWN Close]: " + code);
+                out.line("[SPAWN Close]: " + code);
             if (code === 0) {
                 // end without error.
                 if (!this.verbal) {
-                    const endTime = new Date().getTime(), durStr = timeUtil_1.default.formatDuring(endTime - startTime), duration = `[${durStr}]`;
-                    out_node_1.default.stopSpinner();
-                    out_node_1.default.prefix(out_node_1.default.successMark);
-                    out_node_1.default.append(duration, true);
+                    const endTime = new Date().getTime(), durStr = timeUtil.formatDuring(endTime - startTime), duration = `[${durStr}]`;
+                    out.stopSpinner();
+                    out.prefix(out.successMark);
+                    out.append(duration, true);
                 }
             }
             else {
                 // end with error.
                 if (!this.verbal) {
-                    out_node_1.default.stopSpinner();
-                    out_node_1.default.prefix(out_node_1.default.failedMark, true);
+                    out.stopSpinner();
+                    out.prefix(out.failedMark, true);
                 }
             }
             originalOnClose?.call(null, code);
         };
         if (title) {
-            out_node_1.default.line("   " + title, true, false);
+            out.line("   " + title, true, false);
             if (!this.verbal)
-                out_node_1.default.startSpinner(true);
+                out.startSpinner(true);
         }
         if (typeof cmdList === "string")
             cmdList = [cmdList];
         if (this.verbal) {
-            out_node_1.default.line("[yellow][SPAWN]:[/yellow] " + cmdList);
+            out.line("[yellow][SPAWN]:[/yellow] " + cmdList);
         }
         return this.runCmdList(cmdList, cwd, callbacks);
     }
@@ -121,15 +114,15 @@ class CmdUtil {
                 }, Math.random() * 5000 + 2000);
                 return;
             }
-            const proc = (0, child_process_1.spawn)(cmd, argv, cwd ? { cwd } : undefined);
+            const proc = spawn(cmd, argv, cwd ? { cwd } : undefined);
             proc.stdout.on("data", (data) => {
                 if (options?.verbal)
-                    out_node_1.default.line(data, false, false);
+                    out.line(data, false, false);
                 options?.callbacks?.onStdout?.call(null, data.toString());
             });
             proc.stderr.on("data", (data) => {
                 if (this.printStderr)
-                    out_node_1.default.line("[red]stderr:[/red] " + data, false, false);
+                    out.line("[red]stderr:[/red] " + data, false, false);
                 options?.callbacks?.onStderr?.call(null, data.toString());
             });
             proc.on("error", (err) => options?.callbacks?.onError?.call(null, err));
@@ -144,4 +137,4 @@ class CmdUtil {
     }
 }
 const cmdUtil = new CmdUtil();
-exports.default = cmdUtil;
+export default cmdUtil;

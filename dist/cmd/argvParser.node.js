@@ -1,9 +1,4 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const path_1 = __importDefault(require("path"));
+import path from "path";
 /**
  * Node.js only.
  * All Options:
@@ -55,9 +50,9 @@ class ArgvParser {
     }
     _parseArgs() {
         this.nodePath = this._origArgv[0];
-        this.filePath = path_1.default.dirname(this._origArgv[1]);
+        this.filePath = path.dirname(this._origArgv[1]);
         this.cwd = __dirname;
-        this.appName = path_1.default.basename(this._origArgv[1]);
+        this.appName = path.basename(this._origArgv[1]);
         let curArg = "";
         this._normalize(this._origArgv.slice(2)).forEach((arg, index, { length }) => {
             if (/^"(.+)"$/.test(arg)) {
@@ -104,4 +99,4 @@ class ArgvParser {
     }
 }
 const argvParser = new ArgvParser();
-exports.default = argvParser;
+export default argvParser;

@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class Model {
+export default class Model {
     _$handlers = {};
     get $handlers() {
         return this._$handlers;
@@ -49,4 +47,3 @@ class Model {
             target.offAll();
     }
 }
-exports.default = Model;

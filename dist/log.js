@@ -1,12 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LogData = void 0;
-const Model_1 = __importDefault(require("./data/Model"));
-const timeUtil_1 = __importDefault(require("./utils/timeUtil"));
-class LogData {
+import EventDispatcher from "./data/Model";
+import timeUtil from "./utils/timeUtil";
+export class LogData {
     time = 0;
     type = "";
     msg = "";
@@ -18,11 +12,10 @@ class LogData {
             console.debug(this.toString());
     }
     toString() {
-        return `[${timeUtil_1.default.formatDate(this.time)}] ` + `(${this.type.toUpperCase()}): ` + this.msg;
+        return `[${timeUtil.formatDate(this.time)}] ` + `(${this.type.toUpperCase()}): ` + this.msg;
     }
 }
-exports.LogData = LogData;
-class Log extends Model_1.default {
+class Log extends EventDispatcher {
     logs = [];
     toConsole = false;
     constructor() {
@@ -36,4 +29,4 @@ class Log extends Model_1.default {
     }
 }
 const log = new Log();
-exports.default = log;
+export default log;

@@ -1,9 +1,4 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const numUtil_1 = __importDefault(require("./numUtil"));
+import numUtil from "./numUtil";
 class DataUtil {
     isEmpty(val) {
         return val === null || val === undefined || String(val).trim() === "";
@@ -127,7 +122,7 @@ class DataUtil {
         return newObj;
     }
     randPick(list) {
-        return list[numUtil_1.default.randInt(list.length - 1)];
+        return list[numUtil.randInt(list.length - 1)];
     }
     randArray(arr) {
         return this.messOrder(arr.length).map((i) => arr[i]);
@@ -136,7 +131,7 @@ class DataUtil {
         const arr = [...Array(len)].map((v, i) => i);
         const newArr = [];
         for (let i = 0; i < len; i++) {
-            const index = numUtil_1.default.randInt(arr.length - 1);
+            const index = numUtil.randInt(arr.length - 1);
             newArr.push(arr[index]);
             arr.splice(index, 1);
         }
@@ -157,4 +152,4 @@ class DataUtil {
     }
 }
 const dataUtil = new DataUtil();
-exports.default = dataUtil;
+export default dataUtil;

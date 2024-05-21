@@ -1,5 +1,5 @@
 {
-    "name": "@btang/btdev-lib",
+    "name": "btdev-lib",
     "version": "2024.5.4",
     "description": "",
     "main": "dist/index.js",

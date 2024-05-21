@@ -1,25 +1,20 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
-const pathUtil_node_1 = __importDefault(require("../utils/pathUtil.node"));
-const dataUtil_1 = __importDefault(require("../utils/dataUtil"));
-const log_1 = __importDefault(require("../log"));
-const argvParser_node_1 = __importDefault(require("./argvParser.node"));
+import fs from "fs";
+import path from "path";
+import pathUtil from "../utils/pathUtil.node";
+import dataUtil from "../utils/dataUtil";
+import log from "../log";
+import argvParser from "./argvParser.node";
 class ConfParser {
     _config = {};
     defaultConfig = {};
     constructor() { }
     get(refPath, guessType = true) {
-        let conf = dataUtil_1.default.readByPath(this._config, refPath);
+        let conf = dataUtil.readByPath(this._config, refPath);
         if ((conf === null || conf === undefined) && this.defaultConfig) {
-            conf = dataUtil_1.default.readByPath(this.defaultConfig, refPath);
+            conf = dataUtil.readByPath(this.defaultConfig, refPath);
         }
         if (guessType)
-            return dataUtil_1.default.guessType(conf);
+            return dataUtil.guessType(conf);
         else
             return conf;
     }
@@ -34,25 +29,25 @@ class ConfParser {
         if (typeof filePath === "string")
             filePath = [filePath];
         filePath.forEach((p) => {
-            p = pathUtil_node_1.default.regularPath(p);
+            p = pathUtil.regularPath(p);
             if (cwd)
-                p = path_1.default.join(cwd, p);
-            if (fs_1.default.existsSync(p)) {
-                log_1.default.msg("customized config file exists");
+                p = path.join(cwd, p);
+            if (fs.existsSync(p)) {
+                log.msg("customized config file exists");
                 try {
-                    const config = JSON.parse(fs_1.default.readFileSync(p).toString());
+                    const config = JSON.parse(fs.readFileSync(p).toString());
                     if (override)
                         this._config = config;
                     else
-                        this._config = dataUtil_1.default.combine(this._config, config);
+                        this._config = dataUtil.combine(this._config, config);
                 }
                 catch (e) {
-                    log_1.default.error("customized config file parse failed, ignore.");
+                    log.error("customized config file parse failed, ignore.");
                     this._config = {};
                 }
             }
         });
-        log_1.default.msg("Config updated: " + this.toString());
+        log.msg("Config updated: " + this.toString());
         return this;
     }
     assemble(str) {
@@ -65,7 +60,7 @@ class ConfParser {
         });
         // find @{n} and replace with the value from argv
         (str.match(/\@\{(.*?)\}/gi) || []).forEach((m) => {
-            let v = argvParser_node_1.default.get(m.slice(2, -1)); // get value from argv
+            let v = argvParser.get(m.slice(2, -1)); // get value from argv
             if (v === undefined)
                 v = this.getVar(m.slice(2, -1)); // use value from config if not found in argv
             if (v)
@@ -110,4 +105,4 @@ class ConfParser {
     }
 }
 const confParser = new ConfParser();
-exports.default = confParser;
+export default confParser;

@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 class StrUtil {
     rand(len = 16) {
         len = len || 16;
@@ -296,4 +294,4 @@ class StrUtil {
     }
 }
 const strUtil = new StrUtil();
-exports.default = strUtil;
+export default strUtil;

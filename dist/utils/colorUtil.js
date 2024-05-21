@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 class ColorUtil {
     shadeColor(color, percent) {
         color = this.standardColor(color);
@@ -27,4 +25,4 @@ class ColorUtil {
     }
 }
 const colorUtil = new ColorUtil();
-exports.default = colorUtil;
+export default colorUtil;
