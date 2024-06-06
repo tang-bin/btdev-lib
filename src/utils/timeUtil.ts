@@ -18,14 +18,14 @@ class TimeUtil {
         let ignoreRemains = false; // ignore the remains after the round option
         const timeStrList = [y, mm, d, h, m, s]
             .map((val, index) => {
+                // Check if the unit is the round option
+                const unit = units[index];
+                if (ignoreRemains) return "";
+                else if (unit === options?.round) ignoreRemains = true;
+
                 if (time > val || index === 5) {
                     const v = index === 5 ? Math.floor((time * 100) / val) / 100 : Math.floor(time / val);
                     time = time % val;
-
-                    const unit = units[index];
-
-                    if (ignoreRemains) return "";
-                    else if (unit === options?.round) ignoreRemains = true;
 
                     if (options?.useLabel) {
                         if (v === 1) return v + " " + labels[index];
