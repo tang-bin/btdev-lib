@@ -1,5 +1,5 @@
 class TimeUtil {
-    public formatDuring(time: number, useLabel?: boolean, takeHighest?: Boolean) {
+    public formatDuring(time: number, options?: { useLabel?: boolean; takeHighest?: Boolean; round?: string }) {
         if (time === null || time === undefined) return "";
         else if (time === 0) return "0";
         else if (time < 0) return "";
@@ -15,20 +15,27 @@ class TimeUtil {
             labels = ["Year", "Month", "Day", "Hour", "Minute", "Second", "Millisecond"],
             labelsPlural = ["Years", "Months", "Days", "Hours", "Minutes", "Seconds", "Milliseconds"];
 
+        let ignoreRemains = false; // ignore the remains after the round option
         const timeStrList = [y, mm, d, h, m, s]
             .map((val, index) => {
                 if (time > val || index === 5) {
                     const v = index === 5 ? Math.floor((time * 100) / val) / 100 : Math.floor(time / val);
                     time = time % val;
-                    if (useLabel) {
+
+                    const unit = units[index];
+
+                    if (ignoreRemains) return "";
+                    else if (unit === options?.round) ignoreRemains = true;
+
+                    if (options?.useLabel) {
                         if (v === 1) return v + " " + labels[index];
                         else return v + " " + labelsPlural[index];
-                    } else return v + units[index];
+                    } else return v + unit;
                 } else return 0;
             })
             .filter((v) => !!v);
 
-        if (takeHighest) return timeStrList[0] || "";
+        if (options?.takeHighest) return timeStrList[0] || "";
         else return timeStrList.join(" ");
     }
 
