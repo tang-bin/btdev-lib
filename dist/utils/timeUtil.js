@@ -35,7 +35,7 @@ class TimeUtil {
         if (options?.takeHighest)
             return timeStrList[0] || "";
         else
-            return timeStrList.join(" ");
+            return timeStrList.join(options?.separator || " ");
     }
     formatDate(time, formatString = "short", dateFormat = "LOCAL") {
         let date;

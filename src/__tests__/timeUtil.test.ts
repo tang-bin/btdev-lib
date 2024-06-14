@@ -15,7 +15,9 @@ describe("timeUtil", () => {
     beforeEach(() => {});
 
     test("format to duration", () => {
-        expect(timeUtil.formatDuring(aTime, { round: "mon", useLabel: true })).toBe("1 Year 2 Months");
+        expect(timeUtil.formatDuring(aTime, { round: "mon", useLabel: true, separator: "<br>" })).toBe(
+            "1 Year<br>2 Months"
+        );
         expect(timeUtil.formatDuring(aTime)).toBe("1y 2mon 3d 4h 5m 6s");
         expect(timeUtil.formatDuring(aTime, { useLabel: true })).toBe(
             "1 Year 2 Months 3 Days 4 Hours 5 Minutes 6 Seconds"

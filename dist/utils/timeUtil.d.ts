@@ -3,6 +3,7 @@ declare class TimeUtil {
         useLabel?: boolean;
         takeHighest?: Boolean;
         round?: string;
+        separator?: string;
     }): string;
     formatDate(time: string | number, formatString?: string, dateFormat?: string): string;
 }

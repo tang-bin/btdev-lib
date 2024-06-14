@@ -1,5 +1,8 @@
 class TimeUtil {
-    public formatDuring(time: number, options?: { useLabel?: boolean; takeHighest?: Boolean; round?: string }) {
+    public formatDuring(
+        time: number,
+        options?: { useLabel?: boolean; takeHighest?: Boolean; round?: string; separator?: string }
+    ) {
         if (time === null || time === undefined) return "";
         else if (time === 0) return "0";
         else if (time < 0) return "";
@@ -36,7 +39,7 @@ class TimeUtil {
             .filter((v) => !!v);
 
         if (options?.takeHighest) return timeStrList[0] || "";
-        else return timeStrList.join(" ");
+        else return timeStrList.join(options?.separator || " ");
     }
 
     public formatDate(time: string | number, formatString: string = "short", dateFormat: string = "LOCAL"): string {
